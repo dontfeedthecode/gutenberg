@@ -62,9 +62,13 @@ function render_block_core_template_part( $attributes ) {
 		$content = wp_make_content_images_responsive( $content );
 	}
 	$content = do_shortcode( $content );
+	$content = str_replace( ']]>', ']]&gt;', $content );
+
+	$attributes['tagName'] = isset( $attributes['tagName'] ) ? $attributes['tagName'] : 'div';
 
 	$html_tag = esc_attr( $attributes['tagName'] );
-	return "<$html_tag>" . str_replace( ']]>', ']]&gt;', $content ) . "</$html_tag>";
+
+	return "<$html_tag" . rtrim( ltrim( $content, '<div' ), '</div>' ) . "</$html_tag>";
 }
 
 /**
